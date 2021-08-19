@@ -1,7 +1,7 @@
 import { memo } from 'react'
 import PropTypes from 'prop-types'
 import { LoginMethods } from '../LoginMethods'
-import { Title } from '../../Atoms/Title'
+import { Title } from 'components/Atoms/Title'
 
 const HomePage = ({ user }) => {
   return (
