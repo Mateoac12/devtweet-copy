@@ -1,0 +1,19 @@
+.spinner {
+  width: 40px;
+  height: 40px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 4px solid transparent;
+  border-bottom-color: #2993f7;
+  transform: rotate(0);
+  animation: rotate 1s infinite ease-in-out;
+  
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0);
+  } to {
+    transform: rotate(2turn);
+  }
+}

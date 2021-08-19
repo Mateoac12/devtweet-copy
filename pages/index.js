@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react'
 import Head from 'next/head'
-import styles from '../styles/Home.module.css'
 import { onAuthChanged } from '../firebase/client'
-import { LoginMethods } from '../components/Layouts/LoginMethods'
+
+import { Loading } from '../components/Layouts/Loading'
+import HomePage from '../components/Layouts/Home'
+
+import styles from '../styles/Home.module.css'
 
 export default function Home() {
   const [isUserLoaded, setIsUserLoaded] = useState(false)
@@ -21,21 +24,11 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>
-          Bienvenido a DevTweet!
-        </h1>
-        {
-          isUserLoaded
-            ? (
-              user === null
-                ? (
-                  <LoginMethods />
-                )
-                : <h1>{user.username}</h1>
-            )
-            : <h1>Loading...</h1>
-        }
-       
+      {
+        isUserLoaded
+          ? <HomePage user={user} />
+          : <Loading />
+      }
       </main>
     </div>
   )
