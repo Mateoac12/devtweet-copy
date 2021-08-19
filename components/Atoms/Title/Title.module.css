@@ -10,7 +10,8 @@
 }
 
 .title {
+  text-align: center;
   margin: 0;
   line-height: 1.15;
-  font-size: 4rem;
+  font-size: 2rem;
 }
