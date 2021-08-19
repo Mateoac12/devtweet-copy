@@ -1,5 +1,9 @@
-import { Button } from "../../Atoms/Button"
-import { onAuthWithGithub, onAuthWithTwitter, onAuthWithGoogle } from "../../../firebase/client"
+import { Button } from '../../Atoms/Button'
+import {
+  onAuthWithGithub,
+  onAuthWithTwitter,
+  onAuthWithGoogle,
+} from '../../../firebase/client'
 import styles from './LoginMethods.module.css'
 
 export const LoginMethods = () => {

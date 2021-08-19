@@ -7,13 +7,13 @@
   border-bottom-color: #2993f7;
   transform: rotate(0);
   animation: rotate 1s infinite ease-in-out;
-  
 }
 
 @keyframes rotate {
   from {
     transform: rotate(0);
-  } to {
+  }
+  to {
     transform: rotate(2turn);
   }
 }

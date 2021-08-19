@@ -1,4 +1,4 @@
-import { Spinner } from "../../Atoms/Spinner"
+import { Spinner } from '../../Atoms/Spinner'
 import styles from './Loading.module.css'
 
 export const Loading = () => {

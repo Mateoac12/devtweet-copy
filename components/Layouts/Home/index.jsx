@@ -1,5 +1,6 @@
 import { memo } from 'react'
-import { LoginMethods } from "../LoginMethods"
+import PropTypes from 'prop-types'
+import { LoginMethods } from '../LoginMethods'
 import { Title } from '../../Atoms/Title'
 
 const HomePage = ({ user }) => {
@@ -7,14 +8,13 @@ const HomePage = ({ user }) => {
     <>
       <Title>Bienvenido a DevTweet!</Title>
 
-      {
-        user === null
-          ? <LoginMethods />
-          : <h1>{user.username}</h1>
-      }
-
+      {user === null ? <LoginMethods /> : <h1>{user.username}</h1>}
     </>
   )
+}
+
+HomePage.propTypes = {
+  user: PropTypes.object,
 }
 
 export default memo(HomePage)

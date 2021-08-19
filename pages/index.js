@@ -24,11 +24,7 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-      {
-        isUserLoaded
-          ? <HomePage user={user} />
-          : <Loading />
-      }
+        {isUserLoaded ? <HomePage user={user} /> : <Loading />}
       </main>
     </div>
   )

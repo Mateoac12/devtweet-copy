@@ -97,13 +97,13 @@
 
 .link {
   margin: 1rem 0;
-  padding: .5rem 1.5rem;
+  padding: 0.5rem 1.5rem;
   border-radius: 5px;
   background-color: #0070f3;
   color: #fafafa;
   outline: none;
   filter: brightness(1);
-  transition: filter .15s ease-in-out;
+  transition: filter 0.15s ease-in-out;
   border: 1px solid transparent;
   cursor: pointer;
 }
