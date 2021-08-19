@@ -1,14 +1,11 @@
 import { memo } from 'react'
 import { LoginMethods } from "../LoginMethods"
-
-import styles from '../../../styles/Home.module.css'
+import { Title } from '../../Atoms/Title'
 
 const HomePage = ({ user }) => {
   return (
     <>
-      <h1 className={styles.title}>
-        Bienvenido a DevTweet!
-      </h1>
+      <Title>Bienvenido a DevTweet!</Title>
 
       {
         user === null
