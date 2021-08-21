@@ -1,26 +1,22 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import Head from 'next/head'
 import { useRouter } from 'next/dist/client/router'
-import { onAuthChanged } from '../firebase/client'
 
 import { Loading } from '../components/Layouts/Loading'
 import HomePage from '../components/Layouts/Home'
 import { AppContainer } from 'components/Layouts/AppContainer'
 
+import { useUser } from 'hooks/useUser'
+
 import styles from '../styles/Home.module.css'
 
 export default function Home() {
-  const [isUserLoaded, setIsUserLoaded] = useState(false)
-  const [user, setUser] = useState(null)
+  const { user, isUserLoaded } = useUser()
   const router = useRouter()
 
   useEffect(() => {
     user && router.replace('/home')
   }, [user])
-
-  useEffect(() => {
-    onAuthChanged(setUser, setIsUserLoaded)
-  }, [])
 
   return (
     <AppContainer>

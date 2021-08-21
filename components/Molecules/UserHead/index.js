@@ -8,7 +8,7 @@ export const UserHead = ({ user }) => {
   return (
     <>
       <div>
-        <Avatar imgURL={user.avatar} alt={user.username} />
+        <Avatar src={user.avatar} alt={user.username} />
         <Title>{user.username}</Title>
       </div>
       <style jsx>{styles}</style>

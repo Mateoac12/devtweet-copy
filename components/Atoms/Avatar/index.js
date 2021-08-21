@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types'
 import styles from './styles'
 
-export const Avatar = ({ imgURL, alt }) => {
+export const Avatar = ({ src, alt }) => {
   return (
-    imgURL && (
+    src && (
       <>
-        <img src={imgURL} alt={alt} />
+        <img src={src} alt={alt} />
         <style jsx>{styles}</style>
       </>
     )
@@ -13,6 +13,6 @@ export const Avatar = ({ imgURL, alt }) => {
 }
 
 Avatar.propTypes = {
-  imgURL: PropTypes.string.isRequired,
+  src: PropTypes.string.isRequired,
   alt: PropTypes.string.isRequired,
 }
