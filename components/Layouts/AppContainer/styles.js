@@ -29,6 +29,9 @@ export default css`
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
     height: 100%;
     width: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
   }
 
   @media (min-width: 500px) {

@@ -11,11 +11,12 @@ const firebaseConfig = {
 }
 
 firebase.apps.length === 0 && firebase.initializeApp(firebaseConfig)
+const db = firebase.firestore()
 
 const mapUserFromFirebaseAuth = (user) => {
-  const { email, displayName, photoURL } = user
-
+  const { email, displayName, photoURL, uid } = user
   return {
+    uid,
     email,
     username: displayName,
     avatar: photoURL,
@@ -24,8 +25,10 @@ const mapUserFromFirebaseAuth = (user) => {
 
 export const onAuthChanged = (setUser, setIsUserLoaded) => {
   firebase.auth().onAuthStateChanged((user) => {
-    const normalizedUser = user && mapUserFromFirebaseAuth(user)
-    setUser(normalizedUser)
+    if (user) {
+      const normalizedUser = user && mapUserFromFirebaseAuth(user)
+      setUser(normalizedUser)
+    }
     setIsUserLoaded(true)
   })
 }
@@ -43,4 +46,14 @@ export const onAuthWithTwitter = () => {
 export const onAuthWithGoogle = () => {
   const googleProvider = new firebase.auth.GoogleAuthProvider()
   return firebase.auth().signInWithPopup(googleProvider)
+}
+
+export const createTweet = (tweet) => {
+  const normalizedDevTweet = {
+    ...tweet,
+    date: firebase.firestore.Timestamp.fromDate(new Date()),
+    likesCount: 0,
+    sheredCount: 0,
+  }
+  return db.collection('devtweets').add(normalizedDevTweet)
 }
