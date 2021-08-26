@@ -57,3 +57,24 @@ export const createTweet = (tweet) => {
   }
   return db.collection('devtweets').add(normalizedDevTweet)
 }
+
+export const fetchLastestDevTweets = () => {
+  return db
+    .collection('devtweets')
+    .orderBy('date', 'desc')
+    .get()
+    .then((snapshot) => {
+      return snapshot.docs.map((doc) => {
+        const data = doc.data()
+        console.log(data)
+        const id = doc.id
+        const normalizedDate = +data.date.toDate()
+
+        return {
+          ...data,
+          normalizedDate,
+          id,
+        }
+      })
+    })
+}

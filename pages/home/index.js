@@ -1,16 +1,15 @@
 import { useEffect, useState } from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
-import { Avatar } from 'components/Atoms/Avatar'
 import { AppContainer } from 'components/Layouts/AppContainer'
+import { fetchLastestDevTweets } from 'firebase/client'
+import { DevTweet } from 'components/Molecules/DevTweet'
 
 const HomePage = () => {
   const [timeline, setTimeline] = useState([])
 
   useEffect(() => {
-    fetch('/api/statuses/homeTimeLine')
-      .then((data) => data.json())
-      .then(setTimeline)
+    fetchLastestDevTweets().then(setTimeline)
   }, [])
 
   return (
@@ -26,16 +25,26 @@ const HomePage = () => {
           <h1>Inicio</h1>
         </header>
         <section>
-          Listado de todos los tweets
-          {timeline.map(({ avatar, username, message, id }) => (
-            <article key={id}>
-              <header>
-                <Avatar src={avatar} alt={username} />
-                <h2>{username}</h2>
-              </header>
-              <p>{message}</p>
-            </article>
-          ))}
+          {timeline.map(
+            ({
+              content,
+              id,
+              avatar = '',
+              username,
+              likesCount,
+              normalizedDate,
+            }) => (
+              <DevTweet
+                key={id}
+                id={id}
+                content={content}
+                avatar={avatar}
+                username={username}
+                likesCount={likesCount}
+                normalizedDate={normalizedDate}
+              />
+            )
+          )}
         </section>
         <nav>
           <Link href="compose/devtweet">
@@ -57,18 +66,21 @@ const HomePage = () => {
         }
 
         article {
+          display: flex;
+          align-items: flex-start;
           border-bottom: 1px solid #eeeeee;
-          padding: 0 0.5rem;
+          padding: 0.5rem;
+          background-color: #fff;
         }
 
-        article > header {
-          display: flex;
-          align-items: center;
+        body {
+          padding-left: 1rem;
         }
 
         h2 {
-          font-size: 18px;
-          margin-left: 0.5rem;
+          font-size: 16px;
+          margin-top: 0;
+          margin-bottom: 0;
         }
 
         a {
@@ -81,6 +93,7 @@ const HomePage = () => {
 
         p {
           margin-top: 0;
+          background-color: #fff;
         }
 
         nav {

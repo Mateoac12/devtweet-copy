@@ -16,12 +16,16 @@ const DevTweetPage = () => {
   const router = useRouter()
   const { user } = useUser()
   const uid = user?.uid
+  const avatar = user?.avatar
+  const username = user?.username
 
   const handleCreateDevTweet = (e) => {
     e.preventDefault()
     setSubmitPermision(STATUS.SUBMIT_LOADING)
     const devTweetStructure = {
       uid,
+      avatar,
+      username,
       content,
     }
     createTweet(devTweetStructure).then(router.replace('/home'))
