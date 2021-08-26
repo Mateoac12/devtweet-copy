@@ -1,8 +1,9 @@
+import React from 'react'
 import PropTypes from 'prop-types'
 import { Avatar } from 'components/Atoms/Avatar'
 import { useTimeAgo } from 'hooks/useTimeAgo'
 
-export const DevTweet = ({
+const DevTweet = ({
   id,
   avatar,
   username,
@@ -70,6 +71,8 @@ export const DevTweet = ({
     </>
   )
 }
+
+export default React.memo(DevTweet)
 
 DevTweet.propTypes = {
   id: PropTypes.string.isRequired,

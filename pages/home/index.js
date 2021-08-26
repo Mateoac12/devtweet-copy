@@ -3,13 +3,18 @@ import Head from 'next/head'
 import Link from 'next/link'
 import { AppContainer } from 'components/Layouts/AppContainer'
 import { fetchLastestDevTweets } from 'firebase/client'
-import { DevTweet } from 'components/Molecules/DevTweet'
+import DevTweet from 'components/Molecules/DevTweet'
+import { Loading } from 'components/Layouts/Loading'
 
 const HomePage = () => {
   const [timeline, setTimeline] = useState([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetchLastestDevTweets().then(setTimeline)
+    fetchLastestDevTweets().then((devTweets) => {
+      setTimeline(devTweets)
+      setLoading(false)
+    })
   }, [])
 
   return (
@@ -25,25 +30,29 @@ const HomePage = () => {
           <h1>Inicio</h1>
         </header>
         <section>
-          {timeline.map(
-            ({
-              content,
-              id,
-              avatar = '',
-              username,
-              likesCount,
-              normalizedDate,
-            }) => (
-              <DevTweet
-                key={id}
-                id={id}
-                content={content}
-                avatar={avatar}
-                username={username}
-                likesCount={likesCount}
-                normalizedDate={normalizedDate}
-              />
+          {!loading ? (
+            timeline.map(
+              ({
+                content,
+                id,
+                avatar = '',
+                username,
+                likesCount,
+                normalizedDate,
+              }) => (
+                <DevTweet
+                  key={id}
+                  id={id}
+                  content={content}
+                  avatar={avatar}
+                  username={username}
+                  likesCount={likesCount}
+                  normalizedDate={normalizedDate}
+                />
+              )
             )
+          ) : (
+            <Loading />
           )}
         </section>
         <nav>
@@ -63,6 +72,7 @@ const HomePage = () => {
 
         section {
           height: 100%;
+          overflow-y: scroll;
         }
 
         article {
