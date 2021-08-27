@@ -39,6 +39,7 @@ const HomePage = () => {
                 username,
                 likesCount,
                 normalizedDate,
+                image,
               }) => (
                 <DevTweet
                   key={id}
@@ -48,6 +49,7 @@ const HomePage = () => {
                   username={username}
                   likesCount={likesCount}
                   normalizedDate={normalizedDate}
+                  image={image}
                 />
               )
             )

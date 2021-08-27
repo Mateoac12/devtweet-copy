@@ -88,25 +88,8 @@ export const fetchLastestDevTweets = () => {
     })
 }
 
-/* export const fetchLastestDevTweets = () => {
-  return db
-    .collection('devtweets')
-    .orderBy('date', 'desc')
-    .onSnapshot(
-      (snapshot) => {
-        return snapshot.docs.map((doc) => {
-          const data = doc.data()
-          const id = doc.id
-          const normalizedDate = +data.date.toDate()
-
-          return {
-            ...data,
-            normalizedDate,
-            id,
-          }
-        })
-      },
-      (err) => console.log(err)
-    )
+export const uploadImage = (file) => {
+  const ref = firebase.storage().ref(`images/${file.name}`)
+  const task = ref.put(file)
+  return task
 }
- */

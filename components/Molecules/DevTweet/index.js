@@ -11,6 +11,7 @@ const DevTweet = ({
   normalizedDate,
   content,
   likesCount,
+  image,
 }) => {
   const timeAgo = useTimeAgo(normalizedDate)
   const [isLiked, setIsLiked] = useState(false)
@@ -32,6 +33,7 @@ const DevTweet = ({
             {username} <span>{timeAgo}</span>
           </h2>
           <p>{content}</p>
+          {image && <img src={image} />}
           <footer>
             <span>{likesCount}</span>
             <input
@@ -94,6 +96,13 @@ const DevTweet = ({
 
         div {
           padding-left: 1rem;
+          width: 100%;
+        }
+
+        img {
+          border-radius: 10px;
+          width: 100%;
+          max-width: 80%;
         }
 
         h2 {
@@ -136,4 +145,5 @@ DevTweet.propTypes = {
   normalizedDate: PropTypes.number.isRequired,
   content: PropTypes.string.isRequired,
   likesCount: PropTypes.number.isRequired,
+  image: PropTypes.oneOfType([null, PropTypes.string]),
 }

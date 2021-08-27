@@ -1,7 +1,7 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useUser } from 'hooks/useUser'
 import { AppContainer } from 'components/Layouts/AppContainer'
-import { createTweet } from 'firebase/client'
+import { createTweet, uploadImage } from 'firebase/client'
 import { useRouter } from 'next/dist/client/router'
 
 const DevTweetPage = () => {
@@ -10,14 +10,39 @@ const DevTweetPage = () => {
     NOT_CONTENT: 1,
     SUBMIT_LOADING: 2,
   }
+  const DRAG_IMAGE_STATE = {
+    ERROR: -2,
+    NONE: -1,
+    DRAG_OVER: 0,
+    DRAG_LOADING: 1,
+    UPLOADING: 2,
+    COMPLEATE: 3,
+  }
 
   const [submitPermision, setSubmitPermision] = useState(STATUS.USER_NOT_KNOWN)
   const [content, setContent] = useState('')
+
+  const [drag, setDrag] = useState(DRAG_IMAGE_STATE.NONE)
+  const [task, setTask] = useState(null)
+  const [image, setImage] = useState(null)
+
   const router = useRouter()
   const { user } = useUser()
   const uid = user?.uid
   const avatar = user?.avatar
   const username = user?.username
+
+  useEffect(() => {
+    if (task) {
+      const onProgress = () => {}
+      const getErrors = () => {}
+      const getComplete = () => {
+        task.snapshot.ref.getDownloadURL().then(setImage)
+      }
+
+      task.on('state_changed', onProgress, getErrors, getComplete)
+    }
+  }, [task])
 
   const handleCreateDevTweet = (e) => {
     e.preventDefault()
@@ -27,11 +52,30 @@ const DevTweetPage = () => {
       avatar,
       username,
       content,
+      image,
     }
     createTweet(devTweetStructure).then(router.replace('/home'))
   }
 
   const disabled = !content.length || submitPermision === STATUS.SUBMIT_LOADING
+
+  const handleDrop = (e) => {
+    e.preventDefault()
+
+    setDrag(DRAG_IMAGE_STATE.NONE)
+    const file = e.dataTransfer.files[0]
+
+    const task = uploadImage(file)
+    setTask(task)
+  }
+  const handleDragEnter = (e) => {
+    e.preventDefault()
+    setDrag(DRAG_IMAGE_STATE.DRAG_OVER)
+  }
+  const handleDragLeave = (e) => {
+    e.preventDefault()
+    setDrag(DRAG_IMAGE_STATE.NONE)
+  }
 
   return (
     <>
@@ -40,8 +84,12 @@ const DevTweetPage = () => {
           <textarea
             placeholder="Que esta pasando?"
             value={content}
+            onDrop={handleDrop}
+            onDragEnter={handleDragEnter}
+            onDragLeave={handleDragLeave}
             onChange={(event) => setContent(event.target.value)}
           />
+          {image && <img src={image} />}
           <button disabled={disabled}>Devtweetear</button>
         </form>
       </AppContainer>
@@ -50,17 +98,29 @@ const DevTweetPage = () => {
           display: flex;
           flex-direction: column;
           height: 100%;
+          margin: 1rem;
         }
 
         textarea {
           resize: none;
           width: 100%;
           height: 400px;
-          border: none;
+          border: ${drag === DRAG_IMAGE_STATE.DRAG_OVER
+            ? '3px dashed #09f'
+            : '3px solid transparent'};
+          border-radius: 10px;
           outline: none;
           padding: 1rem;
           font-size: 18px;
           flex: 1;
+        }
+
+        img {
+          max-width: 80%;
+          margin-left: auto;
+          margin-right: auto;
+          width: 100%;
+          border-radius: 10px;
         }
 
         button {
