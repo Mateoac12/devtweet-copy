@@ -58,6 +58,15 @@ export const createTweet = (tweet) => {
   return db.collection('devtweets').add(normalizedDevTweet)
 }
 
+export const uploadDevTweet = (devTweetID, { propertyName, value }) => {
+  return db
+    .collection('devtweets')
+    .doc(devTweetID)
+    .update({
+      [propertyName]: value,
+    })
+}
+
 export const fetchLastestDevTweets = () => {
   return db
     .collection('devtweets')
@@ -78,3 +87,26 @@ export const fetchLastestDevTweets = () => {
       })
     })
 }
+
+/* export const fetchLastestDevTweets = () => {
+  return db
+    .collection('devtweets')
+    .orderBy('date', 'desc')
+    .onSnapshot(
+      (snapshot) => {
+        return snapshot.docs.map((doc) => {
+          const data = doc.data()
+          const id = doc.id
+          const normalizedDate = +data.date.toDate()
+
+          return {
+            ...data,
+            normalizedDate,
+            id,
+          }
+        })
+      },
+      (err) => console.log(err)
+    )
+}
+ */

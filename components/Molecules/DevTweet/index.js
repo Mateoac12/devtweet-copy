@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { Avatar } from 'components/Atoms/Avatar'
 import { useTimeAgo } from 'hooks/useTimeAgo'
+import { uploadDevTweet } from 'firebase/client'
 
 const DevTweet = ({
   id,
@@ -12,6 +13,15 @@ const DevTweet = ({
   likesCount,
 }) => {
   const timeAgo = useTimeAgo(normalizedDate)
+  const [isLiked, setIsLiked] = useState(false)
+  const handleUpdateLikes = () => {
+    setIsLiked((lastValue) => !lastValue)
+    uploadDevTweet(id, {
+      propertyName: 'likesCount',
+      value: likesCount + 1,
+    })
+  }
+
   return (
     <>
       <article key={id}>
@@ -22,11 +32,17 @@ const DevTweet = ({
             {username} <span>{timeAgo}</span>
           </h2>
           <p>{content}</p>
+          <footer>
+            <span>{likesCount}</span>
+            <input
+              id={`likesChecker-${id}`}
+              type="checkbox"
+              onClick={handleUpdateLikes}
+              value={isLiked}
+            />
+            <label htmlFor={`likesChecker-${id}`}></label>
+          </footer>
         </div>
-        <footer>
-          <span>{likesCount}</span>
-          <button>Likes</button>
-        </footer>
       </article>
       <style jsx>{`
         article {
@@ -35,6 +51,45 @@ const DevTweet = ({
           border-bottom: 1px solid #eeeeee;
           padding: 0.5rem;
           background-color: #fff;
+        }
+
+        input {
+          display: none;
+        }
+
+        input:checked + label {
+          filter: brightness(0.5);
+        }
+
+        label {
+          background-color: red;
+          display: inline-block;
+          height: 10px;
+          margin: 0 10px;
+          position: relative;
+          top: 0;
+          transform: rotate(-45deg);
+          width: 10px;
+        }
+
+        label:before,
+        label:after {
+          content: '';
+          background-color: red;
+          border-radius: 50%;
+          height: 10px;
+          position: absolute;
+          width: 10px;
+        }
+
+        label:before {
+          top: -5px;
+          left: 0;
+        }
+
+        label:after {
+          left: 5px;
+          top: 0;
         }
 
         div {
