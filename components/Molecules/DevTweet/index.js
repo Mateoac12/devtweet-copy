@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { Avatar } from 'components/Atoms/Avatar'
+import Avatar from 'components/Atoms/Avatar'
 import { useTimeAgo } from 'hooks/useTimeAgo'
 import { uploadDevTweet } from 'firebase/client'
 

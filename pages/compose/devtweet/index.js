@@ -3,6 +3,7 @@ import { useUser } from 'hooks/useUser'
 import { AppContainer } from 'components/Layouts/AppContainer'
 import { createTweet, uploadImage } from 'firebase/client'
 import { useRouter } from 'next/dist/client/router'
+import Avatar from 'components/Atoms/Avatar'
 
 const DevTweetPage = () => {
   const STATUS = {
@@ -81,6 +82,10 @@ const DevTweetPage = () => {
     <>
       <AppContainer>
         <form onSubmit={handleCreateDevTweet}>
+          <figure>
+            <Avatar src={avatar || ''} alt={username || ''} />
+            <h3>{username}</h3>
+          </figure>
           <textarea
             placeholder="Que esta pasando?"
             value={content}
@@ -113,6 +118,14 @@ const DevTweetPage = () => {
           padding: 1rem;
           font-size: 18px;
           flex: 1;
+        }
+        figure {
+          margin: 0;
+          display: flex;
+          align-items: center;
+          column-gap: 0.5rem;
+          border-bottom: 1px dashed #ccc;
+          padding: 0 1rem;
         }
 
         img {

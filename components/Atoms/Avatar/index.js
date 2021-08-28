@@ -1,7 +1,8 @@
+import React from 'react'
 import PropTypes from 'prop-types'
 import styles from './styles'
 
-export const Avatar = ({ src, alt }) => {
+const Avatar = ({ src, alt }) => {
   return (
     src && (
       <>
@@ -16,3 +17,5 @@ Avatar.propTypes = {
   src: PropTypes.string.isRequired,
   alt: PropTypes.string.isRequired,
 }
+
+export default React.memo(Avatar)

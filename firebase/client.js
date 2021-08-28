@@ -75,7 +75,6 @@ export const fetchLastestDevTweets = () => {
     .then((snapshot) => {
       return snapshot.docs.map((doc) => {
         const data = doc.data()
-        console.log(data)
         const id = doc.id
         const normalizedDate = +data.date.toDate()
 
