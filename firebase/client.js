@@ -67,23 +67,35 @@ export const uploadDevTweet = (devTweetID, { propertyName, value }) => {
     })
 }
 
+const mapDevTweetsFromFirebaseToObject = (doc) => {
+  const data = doc.data()
+  const id = doc.id
+  const normalizedDate = +data.date.toDate()
+
+  return {
+    ...data,
+    normalizedDate,
+    id,
+  }
+}
+
 export const fetchLastestDevTweets = () => {
   return db
     .collection('devtweets')
     .orderBy('date', 'desc')
     .get()
-    .then((snapshot) => {
-      return snapshot.docs.map((doc) => {
-        const data = doc.data()
-        const id = doc.id
-        const normalizedDate = +data.date.toDate()
+    .then((data) => {
+      return data.docs.map(mapDevTweetsFromFirebaseToObject)
+    })
+}
 
-        return {
-          ...data,
-          normalizedDate,
-          id,
-        }
-      })
+export const listenLastestDevTweets = (callback) => {
+  return db
+    .collection('devtweets')
+    .orderBy('date', 'desc')
+    .onSnapshot(({ docs }) => {
+      const newDevtweets = docs.map(mapDevTweetsFromFirebaseToObject)
+      callback(newDevtweets)
     })
 }
 

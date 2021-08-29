@@ -171,5 +171,5 @@ DevTweet.propTypes = {
   normalizedDate: PropTypes.number.isRequired,
   content: PropTypes.string.isRequired,
   likesCount: PropTypes.number.isRequired,
-  image: PropTypes.oneOfType([null, PropTypes.string]),
+  image: PropTypes.oneOfType([PropTypes.any, PropTypes.string]),
 }

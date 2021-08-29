@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
 import { AppContainer } from 'components/Layouts/AppContainer'
-import { fetchLastestDevTweets } from 'firebase/client'
+import { listenLastestDevTweets } from 'firebase/client'
 import DevTweet from 'components/Molecules/DevTweet'
 import { Loading } from 'components/Layouts/Loading'
 
@@ -11,10 +11,9 @@ const HomePage = () => {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetchLastestDevTweets().then((devTweets) => {
-      setTimeline(devTweets)
-      setLoading(false)
-    })
+    const subscription = listenLastestDevTweets(setTimeline)
+    setLoading(false)
+    return () => subscription && subscription()
   }, [])
 
   return (
@@ -58,7 +57,7 @@ const HomePage = () => {
           )}
         </section>
         <nav>
-          <Link href="compose/devtweet">
+          <Link href="/compose/devtweet">
             <a>Nuevo Devtweet</a>
           </Link>
         </nav>
