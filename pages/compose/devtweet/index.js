@@ -78,6 +78,16 @@ const DevTweetPage = () => {
     setDrag(DRAG_IMAGE_STATE.NONE)
   }
 
+  const handleSubmiImagetWithBtn = (e) => {
+    e.preventDefault()
+
+    setDrag(DRAG_IMAGE_STATE.NONE)
+    const file = e.target.files[0]
+    console.log(file)
+    const task = uploadImage(file)
+    setTask(task)
+  }
+
   return (
     <>
       <AppContainer>
@@ -94,6 +104,7 @@ const DevTweetPage = () => {
             onDragLeave={handleDragLeave}
             onChange={(event) => setContent(event.target.value)}
           />
+          <input onChange={handleSubmiImagetWithBtn} type="file" />
           {image && <img src={image} />}
           <button disabled={disabled}>Devtweetear</button>
         </form>
