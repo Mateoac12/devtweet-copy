@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import Avatar from 'components/Atoms/Avatar'
 import { useTimeAgo } from 'hooks/useTimeAgo'
 import { uploadDevTweet } from 'firebase/client'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 const DevTweet = ({
   id,
@@ -13,9 +15,11 @@ const DevTweet = ({
   likesCount,
   image,
 }) => {
+  const router = useRouter()
   const timeAgo = useTimeAgo(normalizedDate)
   const [isLiked, setIsLiked] = useState(false)
-  const handleUpdateLikes = () => {
+  const handleUpdateLikes = (e) => {
+    e.stopPropagation()
     setIsLiked((lastValue) => !lastValue)
     uploadDevTweet(id, {
       propertyName: 'likesCount',
@@ -23,14 +27,23 @@ const DevTweet = ({
     })
   }
 
+  const handleViewDetails = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    router.push(`status/${id}`)
+  }
+
   return (
     <>
-      <article key={id}>
+      <article key={id} onClick={handleViewDetails}>
         <Avatar src={avatar} alt={username} />
 
         <div>
           <h2>
-            {username} <span>{timeAgo}</span>
+            {username}
+            <Link href={`status/${id}`}>
+              <time dateTime={timeAgo}>{timeAgo}</time>
+            </Link>
           </h2>
           <p>{content}</p>
           {image && <img src={image} />}
@@ -55,12 +68,23 @@ const DevTweet = ({
           background-color: #fff;
         }
 
+        article:hover {
+          cursor: pointer;
+          background-color: rgba(0, 0, 0, 0.03);
+        }
+
         input {
           display: none;
         }
 
         input:checked + label {
           filter: brightness(0.5);
+        }
+
+        time {
+          font-weight: 400;
+          font-size: 12px;
+          color: #ccc;
         }
 
         label {
@@ -109,6 +133,9 @@ const DevTweet = ({
           font-size: 16px;
           margin-top: 0;
           margin-bottom: 0;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
         }
 
         a {
@@ -121,7 +148,6 @@ const DevTweet = ({
 
         p {
           margin-top: 0;
-          background-color: #fff;
         }
 
         nav {
